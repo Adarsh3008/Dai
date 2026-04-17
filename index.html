@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sharma Dairy</title>
+
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f8faf8;
+    padding-top: 70px;
+}
+
+/* NAVBAR */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background: linear-gradient(90deg, #0d3b1e, #1b5e20);
+    color: white;
+}
+
+.logo { display: flex; align-items: center; gap: 10px; }
+
+.logo-icon {
+    background: rgba(255,255,255,0.15);
+    padding: 6px;
+    border-radius: 8px;
+}
+
+.menu { display: flex; gap: 18px; flex-wrap: wrap; }
+
+.menu a {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+/* HERO */
+.hero {
+    height: 100vh;
+    background:
+    linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.2)),
+    url('https://images.unsplash.com/photo-1500595046743-cd271d694d30');
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    padding: 60px 20px;
+    color: white;
+}
+
+.hero-content {
+    max-width: 600px;
+}
+
+.hero h1 {
+    font-size: 52px;
+    margin-bottom: 10px;
+}
+
+.hero p {
+    font-size: 18px;
+}
+
+/* CTA BUTTON */
+.cta-btn {
+    margin-top: 25px;
+    background: linear-gradient(45deg, #25D366, #1ebc57);
+    padding: 14px 30px;
+    border-radius: 40px;
+    border: none;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
+    transition: 0.3s;
+}
+
+.cta-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+}
+
+/* PRODUCTS */
+.products {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 25px;
+}
+
+.card {
+    background: white;
+    border-radius: 20px;
+    padding: 15px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+
+.card img {
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+.card p {
+    color: #2e7d32;
+    font-weight: bold;
+}
+
+.card button {
+    margin-top: 10px;
+    background: #25D366;
+    border: none;
+    padding: 10px;
+    border-radius: 20px;
+    color: white;
+    cursor: pointer;
+}
+
+/* CONTACT */
+.contact {
+    background: #0d3b1e;
+    color: white;
+    text-align: center;
+    padding: 40px;
+}
+
+/* MODAL */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-box {
+    background: white;
+    padding: 25px;
+    border-radius: 18px;
+    width: 320px;
+}
+
+.modal-box input {
+    width: 100%;
+    margin: 10px 0;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+
+.modal-box button {
+    width: 100%;
+    margin-top: 10px;
+    padding: 12px;
+    border-radius: 25px;
+    border: none;
+}
+
+.confirm { background: #25D366; color: white; }
+.cancel { background: #eee; }
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="logo">
+        <div class="logo-icon">🥛</div>
+        <h2>Sharma Dairy</h2>
+    </div>
+    <div class="menu">
+        <a href="#home">Home</a>
+        <a href="#products">Products</a>
+        <a href="#contact">Contact</a>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+    <div class="hero-content">
+        <h1>Fresh Dairy Delivered Daily</h1>
+        <p>Pure • Hygienic • Farm Fresh</p>
+
+        <button onclick="goToProducts()" class="cta-btn">
+            🛒 Order Now
+        </button>
+    </div>
+</section>
+
+<!-- PRODUCTS -->
+<section class="products" id="products">
+    <h2>Our Products</h2>
+
+    <div class="grid">
+
+        <div class="card">
+            <img src="milk.jpg">
+            <h3>Milk</h3>
+            <p>₹50 / Litre</p>
+            <button onclick="orderProduct('Milk')">Order</button>
+        </div>
+
+        <div class="card">
+            <img src="curd.jpg">
+            <h3>Curd</h3>
+            <p>₹70 / Kg</p>
+            <button onclick="orderProduct('Curd')">Order</button>
+        </div>
+
+        <div class="card">
+            <img src="paneer.webp">
+            <h3>Paneer</h3>
+            <p>₹270 / Kg</p>
+            <button onclick="orderProduct('Paneer')">Order</button>
+        </div>
+
+        <div class="card">
+            <img src="ghee.jpg">
+            <h3>Ghee</h3>
+            <p>₹800 / Litre</p>
+            <button onclick="orderProduct('Ghee')">Order</button>
+        </div>
+
+        <div class="card">
+            <img src="lassi.jpg">
+            <h3>Lassi</h3>
+            <p>₹20 / Litre</p>
+            <button onclick="orderProduct('Lassi')">Order</button>
+        </div>
+
+    </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+    <h2>Contact</h2>
+    <p onclick="openContactModal()" style="cursor:pointer; font-size:18px;">
+        📞 8091743376
+    </p>
+</section>
+
+<!-- ORDER MODAL -->
+<div id="orderModal" class="modal">
+    <div class="modal-box">
+        <h3 id="productName"></h3>
+        <p id="priceInfo"></p>
+
+        <input type="number" id="qty">
+        <input type="text" id="phone" placeholder="Mobile Number">
+        <input type="text" id="address" placeholder="Address (optional)">
+
+        <p id="total"></p>
+
+        <button class="confirm" onclick="sendOrder()">Confirm</button>
+        <button class="cancel" onclick="closeModal()">Cancel</button>
+    </div>
+</div>
+
+<!-- CONTACT MODAL -->
+<div id="contactModal" class="modal">
+    <div class="modal-box" style="text-align:center;">
+        <h3>Contact Sharma Dairy</h3>
+        <p>Choose how you want to connect</p>
+
+        <button onclick="makeCall()" class="confirm">
+            📞 Call Now
+        </button>
+
+        <button onclick="openWhatsApp()" style="background:#25D366; color:white;">
+            💬 WhatsApp
+        </button>
+
+        <button onclick="closeContactModal()" class="cancel">
+            Cancel
+        </button>
+    </div>
+</div>
+
+<script>
+let selected="";
+let unit="";
+let price={
+    Milk:50,
+    Curd:70,
+    Paneer:270,
+    Ghee:800,
+    Lassi:20
+};
+
+function goToProducts(){
+    document.getElementById("products").scrollIntoView({
+        behavior: "smooth"
+    });
+}
+
+function orderProduct(p){
+    selected = p;
+    unit = (p==="Milk"||p==="Ghee"||p==="Lassi") ? "Litre" : "Kg";
+
+    document.getElementById("productName").innerText = p;
+    document.getElementById("priceInfo").innerText = "₹"+price[p]+" / "+unit;
+    document.getElementById("qty").placeholder = "Enter quantity ("+unit+")";
+
+    document.getElementById("orderModal").style.display="flex";
+}
+
+function closeModal(){
+    document.getElementById("orderModal").style.display="none";
+}
+
+document.addEventListener("input", function(e){
+    if(e.target.id==="qty"){
+        let q = e.target.value;
+        let total = q*price[selected];
+        document.getElementById("total").innerText="Total: ₹"+total;
+    }
+});
+
+function sendOrder(){
+    let q=document.getElementById("qty").value;
+    let phone=document.getElementById("phone").value;
+    let address=document.getElementById("address").value;
+
+    if(!q || !phone){
+        alert("Please fill required fields");
+        return;
+    }
+
+    let total=q*price[selected];
+
+    let msg=`🛒 New Order
+
+Product: ${selected}
+Quantity: ${q} ${unit}
+Total: ₹${total}
+
+Phone: ${phone}
+Address: ${address || "Not provided"}`;
+
+    window.open("https://wa.me/918091743376?text="+encodeURIComponent(msg));
+}
+
+/* CONTACT FEATURE */
+function openContactModal(){
+    document.getElementById("contactModal").style.display="flex";
+}
+
+function closeContactModal(){
+    document.getElementById("contactModal").style.display="none";
+}
+
+function makeCall(){
+    window.location.href = "tel:8091743376";
+}
+
+function openWhatsApp(){
+    window.open("https://wa.me/918091743376");
+}
+</script>
+
+</body>
+</html>
