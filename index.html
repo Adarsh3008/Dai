@@ -43,7 +43,7 @@ body {
     font-size: 14px;
 }
 
-/* HERO (FIXED) */
+/* HERO */
 .hero {
     min-height: 100vh;
     height: auto;
@@ -82,12 +82,6 @@ body {
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
-    box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
-    transition: 0.3s;
-}
-
-.cta-btn:hover {
-    transform: translateY(-3px) scale(1.05);
 }
 
 /* PRODUCTS */
@@ -174,6 +168,38 @@ body {
 
 .confirm { background: #25D366; color: white; }
 .cancel { background: #eee; }
+
+/* 🔥 MOBILE FIX */
+@media (max-width: 768px) {
+
+    .hero {
+        padding: 40px 15px;
+    }
+
+    .hero h1 {
+        font-size: 32px;
+        line-height: 1.2;
+    }
+
+    .hero p {
+        font-size: 14px;
+    }
+
+    .cta-btn {
+        padding: 12px 20px;
+        font-size: 14px;
+    }
+
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .menu {
+        gap: 10px;
+    }
+}
 </style>
 </head>
 
@@ -256,122 +282,11 @@ body {
     </p>
 </section>
 
-<!-- ORDER MODAL -->
-<div id="orderModal" class="modal">
-    <div class="modal-box">
-        <h3 id="productName"></h3>
-        <p id="priceInfo"></p>
-
-        <input type="number" id="qty">
-        <input type="text" id="phone" placeholder="Mobile Number">
-        <input type="text" id="address" placeholder="Address (optional)">
-
-        <p id="total"></p>
-
-        <button class="confirm" onclick="sendOrder()">Confirm</button>
-        <button class="cancel" onclick="closeModal()">Cancel</button>
-    </div>
-</div>
-
-<!-- CONTACT MODAL -->
-<div id="contactModal" class="modal">
-    <div class="modal-box" style="text-align:center;">
-        <h3>Contact Sharma Dairy</h3>
-        <p>Choose how you want to connect</p>
-
-        <button onclick="makeCall()" class="confirm">
-            📞 Call Now
-        </button>
-
-        <button onclick="openWhatsApp()" style="background:#25D366; color:white;">
-            💬 WhatsApp
-        </button>
-
-        <button onclick="closeContactModal()" class="cancel">
-            Cancel
-        </button>
-    </div>
-</div>
-
 <script>
-let selected="";
-let unit="";
-let price={
-    Milk:50,
-    Curd:70,
-    Paneer:270,
-    Ghee:800,
-    Lassi:20
-};
-
 function goToProducts(){
     document.getElementById("products").scrollIntoView({
         behavior: "smooth"
     });
-}
-
-function orderProduct(p){
-    selected = p;
-    unit = (p==="Milk"||p==="Ghee"||p==="Lassi") ? "Litre" : "Kg";
-
-    document.getElementById("productName").innerText = p;
-    document.getElementById("priceInfo").innerText = "₹"+price[p]+" / "+unit;
-    document.getElementById("qty").placeholder = "Enter quantity ("+unit+")";
-
-    document.getElementById("orderModal").style.display="flex";
-}
-
-function closeModal(){
-    document.getElementById("orderModal").style.display="none";
-}
-
-document.addEventListener("input", function(e){
-    if(e.target.id==="qty"){
-        let q = e.target.value;
-        let total = q*price[selected];
-        document.getElementById("total").innerText="Total: ₹"+total;
-    }
-});
-
-function sendOrder(){
-    let q=document.getElementById("qty").value;
-    let phone=document.getElementById("phone").value;
-    let address=document.getElementById("address").value;
-
-    if(!q || !phone){
-        alert("Please fill required fields");
-        return;
-    }
-
-    let total=q*price[selected];
-
-    let msg=`🛒 New Order
-
-Product: ${selected}
-Quantity: ${q} ${unit}
-Total: ₹${total}
-
-Phone: ${phone}
-Address: ${address || "Not provided"}`;
-
-    window.open("https://wa.me/918091743376?text="+encodeURIComponent(msg));
-}
-
-/* CONTACT FEATURE */
-function openContactModal(){
-    document.getElementById("contactModal").style.display="flex";
-}
-
-function closeContactModal(){
-    document.getElementById("contactModal").style.display="none";
-}
-
-function makeCall(){
-    window.location.href = "tel:8091743376";
-}
-
-function openWhatsApp(){
-    window.open("https://wa.me/918091743376");
 }
 </script>
 
