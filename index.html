@@ -25,6 +25,7 @@ body {
     padding: 12px 16px;
     background: linear-gradient(90deg, #0d3b1e, #1b5e20);
     color: white;
+    z-index: 1000;
 }
 
 .logo { display: flex; align-items: center; gap: 10px; }
@@ -43,10 +44,9 @@ body {
     font-size: 14px;
 }
 
-/* HERO (FIXED) */
+/* HERO */
 .hero {
     min-height: 100vh;
-    height: auto;
     background:
     linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.2)),
     url('https://images.unsplash.com/photo-1500595046743-cd271d694d30');
@@ -58,20 +58,12 @@ body {
     color: white;
 }
 
-.hero-content {
-    max-width: 600px;
-}
+.hero-content { max-width: 600px; }
 
-.hero h1 {
-    font-size: 52px;
-    margin-bottom: 10px;
-}
+.hero h1 { font-size: 52px; }
 
-.hero p {
-    font-size: 18px;
-}
+.hero p { font-size: 18px; }
 
-/* CTA BUTTON */
 .cta-btn {
     margin-top: 25px;
     background: linear-gradient(45deg, #25D366, #1ebc57);
@@ -80,14 +72,7 @@ body {
     border: none;
     color: white;
     font-size: 16px;
-    font-weight: bold;
     cursor: pointer;
-    box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
-    transition: 0.3s;
-}
-
-.cta-btn:hover {
-    transform: translateY(-3px) scale(1.05);
 }
 
 /* PRODUCTS */
@@ -147,6 +132,7 @@ body {
     background: rgba(0,0,0,0.5);
     justify-content: center;
     align-items: center;
+    z-index: 2000;
 }
 
 .modal-box {
@@ -174,12 +160,49 @@ body {
 
 .confirm { background: #25D366; color: white; }
 .cancel { background: #eee; }
+
+/* ================= MOBILE RESPONSIVE ================= */
+@media (max-width: 768px) {
+
+    body { padding-top: 60px; }
+
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .menu {
+        width: 100%;
+        justify-content: space-around;
+    }
+
+    .hero {
+        padding: 40px 15px;
+    }
+
+    .hero h1 { font-size: 32px; }
+
+    .hero p { font-size: 15px; }
+
+    .cta-btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-box {
+        width: 90%;
+    }
+}
 </style>
 </head>
 
 <body>
 
-<!-- NAVBAR -->
 <nav class="navbar">
     <div class="logo">
         <div class="logo-icon">🥛</div>
@@ -192,19 +215,15 @@ body {
     </div>
 </nav>
 
-<!-- HERO -->
 <section class="hero" id="home">
     <div class="hero-content">
         <h1>Fresh Dairy Delivered Daily</h1>
         <p>Pure • Hygienic • Farm Fresh</p>
 
-        <button onclick="goToProducts()" class="cta-btn">
-            🛒 Order Now
-        </button>
+        <button onclick="goToProducts()" class="cta-btn">🛒 Order Now</button>
     </div>
 </section>
 
-<!-- PRODUCTS -->
 <section class="products" id="products">
     <h2>Our Products</h2>
 
@@ -248,12 +267,9 @@ body {
     </div>
 </section>
 
-<!-- CONTACT -->
 <section class="contact" id="contact">
     <h2>Contact</h2>
-    <p onclick="openContactModal()" style="cursor:pointer; font-size:18px;">
-        📞 8091743376
-    </p>
+    <p onclick="openContactModal()" style="cursor:pointer;">📞 8091743376</p>
 </section>
 
 <!-- ORDER MODAL -->
@@ -275,21 +291,12 @@ body {
 
 <!-- CONTACT MODAL -->
 <div id="contactModal" class="modal">
-    <div class="modal-box" style="text-align:center;">
+    <div class="modal-box">
         <h3>Contact Sharma Dairy</h3>
-        <p>Choose how you want to connect</p>
 
-        <button onclick="makeCall()" class="confirm">
-            📞 Call Now
-        </button>
-
-        <button onclick="openWhatsApp()" style="background:#25D366; color:white;">
-            💬 WhatsApp
-        </button>
-
-        <button onclick="closeContactModal()" class="cancel">
-            Cancel
-        </button>
+        <button onclick="makeCall()" class="confirm">📞 Call Now</button>
+        <button onclick="openWhatsApp()" class="confirm">💬 WhatsApp</button>
+        <button onclick="closeContactModal()" class="cancel">Cancel</button>
     </div>
 </div>
 
@@ -305,9 +312,7 @@ let price={
 };
 
 function goToProducts(){
-    document.getElementById("products").scrollIntoView({
-        behavior: "smooth"
-    });
+    document.getElementById("products").scrollIntoView({ behavior: "smooth" });
 }
 
 function orderProduct(p){
@@ -327,37 +332,47 @@ function closeModal(){
 
 document.addEventListener("input", function(e){
     if(e.target.id==="qty"){
-        let q = e.target.value;
-        let total = q*price[selected];
-        document.getElementById("total").innerText="Total: ₹"+total;
+        let q = parseFloat(e.target.value);
+        if(!q) return;
+        document.getElementById("total").innerText="Total: ₹"+(q*price[selected]);
     }
 });
 
 function sendOrder(){
-    let q=document.getElementById("qty").value;
-    let phone=document.getElementById("phone").value;
-    let address=document.getElementById("address").value;
+    let q = parseFloat(document.getElementById("qty").value);
+    let phone = document.getElementById("phone").value.trim();
+    let address = document.getElementById("address").value.trim();
 
-    if(!q || !phone){
-        alert("Please fill required fields");
+    if(!q || q<=0){
+        alert("Enter valid quantity");
         return;
     }
 
-    let total=q*price[selected];
+    if(!phone || phone.length<10){
+        alert("Enter valid phone number");
+        return;
+    }
 
-    let msg=`🛒 New Order
+    let total = q * price[selected];
+    let time = new Date().toLocaleString();
 
-Product: ${selected}
-Quantity: ${q} ${unit}
-Total: ₹${total}
+    let msg = `🛒 *New Order - Sharma Dairy*
 
-Phone: ${phone}
-Address: ${address || "Not provided"}`;
+📦 Product: ${selected}
+📊 Quantity: ${q} ${unit}
+💰 Price: ₹${price[selected]} / ${unit}
+🧾 Total Amount: ₹${total}
 
-    window.open("https://wa.me/918091743376?text="+encodeURIComponent(msg));
+📱 Phone: ${phone}
+🏠 Address: ${address || "Not provided"}
+
+🕒 Order Time: ${time}`;
+
+    window.open("https://wa.me/918091743376?text=" + encodeURIComponent(msg));
+
+    closeModal();
 }
 
-/* CONTACT FEATURE */
 function openContactModal(){
     document.getElementById("contactModal").style.display="flex";
 }
@@ -367,7 +382,7 @@ function closeContactModal(){
 }
 
 function makeCall(){
-    window.location.href = "tel:8091743376";
+    window.location.href="tel:8091743376";
 }
 
 function openWhatsApp(){
